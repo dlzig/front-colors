@@ -51,8 +51,9 @@ class ArtworksController < ApplicationController
   
   # Strong Parameter
   # Never trust parameters from the scary internet, only allow the white list through.
+  # color_id を追加
   def artwork_params
-    params.require(:artwork).permit(:content, :title)
+    params.require(:artwork).permit(:color_id, :title, :content)
   end
   
 end
