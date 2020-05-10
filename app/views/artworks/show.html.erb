@@ -1,0 +1,8 @@
+<p>
+  <strong>Image:</strong>
+  <%= @artwork.title %>
+  <%= image_tag @artwork.content.url if @artwork.content? %>
+</p>
+
+<%= link_to 'Edit', edit_artwork_path(@artwork) %> |
+<%= link_to 'Back', artworks_path %>
