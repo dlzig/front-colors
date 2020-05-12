@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_112111) do
+ActiveRecord::Schema.define(version: 2020_05_12_150823) do
 
   create_table "artworks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content"
@@ -18,13 +18,25 @@ ActiveRecord::Schema.define(version: 2020_05_10_112111) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "color_id"
+    t.bigint "user_id"
     t.index ["color_id"], name: "index_artworks_on_color_id"
+    t.index ["user_id"], name: "index_artworks_on_user_id"
   end
 
   create_table "colors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "hue"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "favorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "artwork_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artwork_id"], name: "index_favorites_on_artwork_id"
+    t.index ["user_id", "artwork_id"], name: "index_favorites_on_user_id_and_artwork_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -38,4 +50,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_112111) do
   end
 
   add_foreign_key "artworks", "colors"
+  add_foreign_key "artworks", "users"
+  add_foreign_key "favorites", "artworks"
+  add_foreign_key "favorites", "users"
 end

@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
-  get 'sessions/create'
-  get 'sessions/destroy'
-  get 'toppages/index'
+
   root to: 'toppages#index'
   
   get 'signup', to: 'users#new'
@@ -12,7 +9,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
 
   resources :artworks
-  resources :colors, only: [:create, :destroy]
+  resources :colors, only: [:create, :destroy, :show] 
   resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
