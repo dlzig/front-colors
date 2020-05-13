@@ -35,6 +35,10 @@ class UsersController < ApplicationController
   def destroy
   end
 
+  def likes
+    @user = User.find(params[:id])
+    @artworks = @user.fav_posts.page (params[:page])
+  end
 
   private
 

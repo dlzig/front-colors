@@ -2,7 +2,11 @@
   <strong>Image:</strong>
   <%= @artwork.title %>
   <%= image_tag @artwork.content.url if @artwork.content? %>
+  <%= @artwork.user.name %>
 </p>
-
-<%= link_to 'Edit', edit_artwork_path(@artwork) %> |
-<%= link_to 'Back', artworks_path %>
+<% if current_user == @artwork.user %>
+        <p><%= link_to 'Edit', edit_artwork_path(@artwork) %></p>
+        <p><%= link_to 'Destroy', @artwork, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+        <p><%= link_to 'Back', root_path %></p>
+        
+<% end %>

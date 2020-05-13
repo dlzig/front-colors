@@ -11,7 +11,8 @@
     </div>
   <% end %>
 
-  
+  <%= image_tag @artwork.content.url if @artwork.content? %>
+    
   <%= form_for @artwork do |f| %>
   <div class="field">
     <%= f.label :color_id %>
