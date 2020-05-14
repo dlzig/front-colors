@@ -7,7 +7,7 @@ class User < ApplicationRecord
   
   # お気に入り機能
   has_many :artworks
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :fav_posts, through: :favorites, source: :artwork
   
   def like(artwork)

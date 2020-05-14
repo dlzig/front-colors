@@ -16,6 +16,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
   end
   
   def create
@@ -24,16 +25,38 @@ class UsersController < ApplicationController
       flash[:success] = 'ユーザを登録しました。'
       redirect_to @user
     else
-      flash.now[:danger] = 'ユーザの登録に失敗しました。'
+      flash.now[:danger] = 'ユーザの登録に失敗しました'
       render :new
     end
   end
   
   def update
+    @user = User.find(params[:id])
+     #編集しようとしてるユーザーがログインユーザーとイコールかをチェック
+    if current_user == @user
+      if @user.update(user_params)
+        flash[:success] = 'ユーザー情報を編集しました'
+        redirect_to @user
+      else
+        flash.now[:danger] = 'ユーザー情報の編集に失敗しました。'
+        render :edit
+      end 
+    end
   end
 
   def destroy
-  end
+    @user = User.find(params[:id])
+     #編集しようとしてるユーザーがログインユーザーとイコールかをチェック
+    if current_user == @user
+      if @user.destroy
+        flash[:success] = 'ユーザー情報を編集しました'
+        redirect_to root_url
+      else
+        flash.now[:danger] = 'ユーザー情報の編集に失敗しました。'
+        redirect_back(fallback_location: root_path)
+      end 
+    end
+   end
 
   def likes
     @user = User.find(params[:id])
@@ -47,7 +70,7 @@ class UsersController < ApplicationController
   
   
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :profile, :password, :password_confirmation)
   end
   
 end

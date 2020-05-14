@@ -5,7 +5,7 @@ class Artwork < ApplicationRecord
   validates :title, presence: true, length: { maximum: 30 }
   
   # お気に入り機能
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :liker, through: :favorites, source: :user
   
 end

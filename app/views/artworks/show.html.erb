@@ -1,12 +1,22 @@
+<table>
+  <thead>
+    <strong>Image:</strong>
+  </thead>
+  <tbody>
+    <tr><td>Title : <%= @artwork.title %></td></tr>
+    <tr><td>User :  <%= link_to @artwork.user.name, user_path(@artwork.user) %></td></tr>
+    <tr><td>Color : <%= @artwork.color.hue %></td></tr>  
+  </tbody>
+</table>
+
 <p>
-  <strong>Image:</strong>
-  <%= @artwork.title %>
   <%= image_tag @artwork.content.url if @artwork.content? %>
-  <%= @artwork.user.name %>
 </p>
+
 <% if current_user == @artwork.user %>
-        <p><%= link_to 'Edit', edit_artwork_path(@artwork) %></p>
-        <p><%= link_to 'Destroy', @artwork, method: :delete, data: { confirm: 'Are you sure?' } %></p>
-        <p><%= link_to 'Back', root_path %></p>
-        
+        <p>
+        <span><%= link_to 'Edit', edit_artwork_path(@artwork), class: 'btn btn-primary btn-sm' %></span>
+        <span><%= link_to 'Destroy', @artwork, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %></span>
+        </p>
 <% end %>
+        <p><%= link_to 'Back', root_path, class: 'btn btn-primary btn-sm' %></p>

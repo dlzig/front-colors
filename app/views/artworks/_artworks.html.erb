@@ -9,34 +9,40 @@
   <tbody>
     <% @artworks.each do |artwork| %>
       <tr>
-        <td><%= image_tag artwork.content.url if artwork.content? %></td>
-        <td>Title : <%= artwork.title %> User: <%= artwork.user.name %></td>
-        <td>Color : <%= artwork.color.hue %>：　</td>
-        <td><%= link_to 'Show', artwork %></td>
-        
+        <td rowSpan=5><%= image_tag artwork.content.url if artwork.content? %></td>
+      </tr>
+      <tr>
+        <td>Title : <%= artwork.title %> </td>
+      </tr>
+      <tr>
+        <td> User: <%= link_to artwork.user.name, user_path(artwork.user) %></td>
+      </tr>
+     
+      <tr>
+        <td>Color : <%= artwork.color.hue %></td>
+      </tr>
+      
+      <tr>
+        <td><%= link_to 'Show', artwork, class: 'btn btn-primary btn-sm' %></td>
         <% if current_user == artwork.user %>
-        <td><%= link_to 'Edit', edit_artwork_path(artwork) %></td>
-        <td><%= link_to 'Destroy', artwork, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 
-          <% else %>
-            <% if current_user.add_favorite?(artwork) %>
-                <td>
-                <%= form_with(model: current_user.favorites.find_by(artwork_id: artwork.id), local: true, method: :delete) do |f| %>
-                <%= hidden_field_tag :artwork_id, artwork.id %>
-                <%= f.submit 'Unlike', class: 'btn btn-warning btn-sm' %>
-                </td>
-              <% end %>
-            <% else %>
+        <% else %>
+          <% if current_user.add_favorite?(artwork) %>
               <td>
-              <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
-                <%= hidden_field_tag :artwork_id, artwork.id %>
-                <%= f.submit 'Like', class: 'btn btn-primary btn-sm' %>
-              <% end %>
+              <%= form_with(model: current_user.favorites.find_by(artwork_id: artwork.id), local: true, method: :delete) do |f| %>
+              <%= hidden_field_tag :artwork_id, artwork.id %>
+              <%= f.submit 'Unlike', class: 'btn btn-warning btn-sm' %>
               </td>
+            <% end %>
+          <% else %>
+            <td>
+            <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
+              <%= hidden_field_tag :artwork_id, artwork.id %>
+              <%= f.submit 'Like', class: 'btn btn-primary btn-sm' %>
+            <% end %>
+            </td>
           <% end %>
-          
         <% end %>
-
       </tr>
     <% end %>
   </tbody>
